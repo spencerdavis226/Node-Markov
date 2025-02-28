@@ -30,13 +30,28 @@ class MarkovMachine {
       // if chains has word as key, push nextWord into value array
       chains[word].push(nextWord);
     }
-    this.chains = chains;
+
+    this.chains = chains; // {"the": ["cat", "hat"], "cat": ["in"], "in": ["the"], "hat": [null]}
   }
 
   /** return random text from chains */
 
   makeText(numWords = 100) {
-    // TODO
+    let output = [];
+
+    let keys = Object.keys(this.chains); // Array of all words from chains
+    let key = keys[Math.floor(Math.random() * keys.length)]; // Randomly chosen key
+
+    for (let i = 0; i < numWords; i++) {
+      output.push(key);
+      let nextWords = this.chains[key]; // ex: cat as key would make nextWords = ["in"]
+
+      if (!nextWords) break;
+      key = nextWords[Math.floor(Math.random() * nextWords.length)]; // Random value from nextWords array
+
+      if (key === null) break;
+    }
+    return output.join(' ');
   }
 }
 
